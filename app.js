@@ -4,7 +4,7 @@ function App(){
   const [products,setProducts] = React.useState([]);
   const [allergens,setAllergens] = React.useState([]);
   const [selected,setSelected] = React.useState(new Set());
-  const [mode,setMode] = React.useState('contains');
+  const [mode,setMode] = React.useState('suitable');
   const [search,setSearch] = React.useState('');
   const [message,setMessage] = React.useState('');
 
@@ -146,8 +146,8 @@ function App(){
         <div style={{flex:1,minWidth:260}}>
           <strong>Modus</strong>
           <div style={{marginTop:6}}>
-            <label style={{marginRight:8}}><input type="radio" checked={mode==='contains'} onChange={()=>setMode('contains')} /> Enthält Allergene</label>
-            <label><input type="radio" checked={mode==='suitable'} onChange={()=>setMode('suitable')} /> Zum Verzehr geeignet</label>
+            <label style={{marginRight:8}}><label><input type="radio" checked={mode==='suitable'} onChange={()=>setMode('suitable')} /> Zum Verzehr geeignet</label>
+              <input type="radio" checked={mode==='contains'} onChange={()=>setMode('contains')} /> Enthält Allergene</label>
           </div>
 
           <div style={{marginTop:12}}>
