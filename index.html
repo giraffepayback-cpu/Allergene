@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Allergen Webapp — PWA</title>
+
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#0ea5a4"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+  <link rel="apple-touch-icon" href="/icons/icon-192.png"/>
+
+  <!-- React -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <!-- Babel for JSX in static file -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    :root{--bg:#f8fafc;--card:#fff;--muted:#6b7280;--accent:#0ea5a4}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Noto Sans",sans-serif;margin:0;background:var(--bg);color:#0f172a}
+    .wrap{max-width:980px;margin:16px auto;padding:16px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .file-row{display:flex;gap:8px;align-items:center}
+    .card{background:var(--card);padding:12px;border-radius:12px;box-shadow:0 1px 3px rgba(2,6,23,0.06)}
+    input[type=file]{padding:6px}
+    button{background:var(--accent);color:white;border:none;padding:8px 10px;border-radius:8px}
+    table{width:100%;border-collapse:collapse}
+    th,td{border:1px solid #e6eef0;padding:6px;text-align:left;font-size:14px}
+    details summary{cursor:pointer}
+    .footer{font-size:13px;color:var(--muted);margin-top:12px}
+    @media (max-width:768px){ .wrap{padding:12px} table{font-size:13px} }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1 style="margin:0">Allergen Webapp — PWA</h1>
+        <div class="footer">Offline-fähig · für GitHub Pages vorbereitet</div>
+      </div>
+      <div class="file-row">
+        <label for="file" style="font-size:14px;color:var(--muted)">JSON hochladen</label>
+        <input id="file" type="file" accept="application/json" />
+        <button id="clearBtn" title="Lokal gespeicherte Daten löschen">Löschen</button>
+      </div>
+    </header>
+
+    <main style="margin-top:14px">
+      <div id="root" class="card"></div>
+    </main>
+
+    <footer class="footer">Hinweis: Daten werden lokal im Browser gespeichert (localStorage).</footer>
+  </div>
+
+  <script type="text/babel" src="/app.js"></script>
+
+  <script>
+    // register service worker (works on GitHub Pages with HTTPS)
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js').then(function(reg){
+          console.log('SW registered', reg.scope);
+        }).catch(function(err){ console.log('SW registration failed', err);});
+      });
+    }
+    // connect file input to app: app listens for custom event
+    const fileInput = document.getElementById('file');
+    const clearBtn = document.getElementById('clearBtn');
+    fileInput.addEventListener('change', (e)=>{
+      window.dispatchEvent(new CustomEvent('pwa-file-selected', { detail: e.target.files[0] }));
+      // reset input to allow same file to be selected again
+      e.target.value = '';
+    });
+    clearBtn.addEventListener('click', ()=>{
+      window.dispatchEvent(new CustomEvent('pwa-clear-data'));
+    });
+  </script>
+</body>
+</html>
