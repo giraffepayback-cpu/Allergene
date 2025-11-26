@@ -3,12 +3,12 @@
 // Cache versioning
 const CACHE_NAME = 'allergen-app-v1';
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/app.js',
-  '/manifest.json',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png'
+  '/Allergene/',
+  '/Allergene/index.html',
+  '/Allergene/app.js',
+  '/Allergene/manifest.json',
+  '/Allergene/icons/icon-192.png',
+  '/Allergene/icons/icon-512.png'
 ];
 
 self.addEventListener('install', (event) => {
@@ -34,7 +34,7 @@ self.addEventListener('fetch', (event) => {
         const copy = res.clone();
         caches.open(CACHE_NAME).then(cache => cache.put(req, copy));
         return res;
-      }).catch(()=> caches.match('/index.html'))
+      }).catch(()=> caches.match('/Allergene/index.html'))
     );
     return;
   }
