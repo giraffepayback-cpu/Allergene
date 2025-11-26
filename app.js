@@ -133,7 +133,7 @@ function App(){
       <div style={{display:'flex',gap:12,flexWrap:'wrap',alignItems:'center'}}>
         <div style={{minWidth:200}}>
           <strong>Allergene</strong>
-          <div style={{maxHeight:160,overflow:'auto',marginTop:6}}>
+          <div style={{marginTop:6}}>
             {allergens.length===0 && <div style={{color:'#6b7280'}}>Keine Allergene geladen</div>}
             {allergens.map(a=>(
               <label key={a} style={{display:'block',fontSize:14,marginBottom:6}}>
